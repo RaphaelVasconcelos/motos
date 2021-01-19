@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
+import { getSession } from 'next-auth/client';
+
 import connect from '../../utils/database';
 
 interface ErrorResponseType {
@@ -19,6 +21,13 @@ export default async (
     res: NextApiResponse<ErrorResponseType>
 ): Promise<void> => {
     if (req.method === 'POST'){
+        const session = await getSession({ req })
+        if (!session) {
+            res.status(400).json({ error: "Please, login first"});
+            return;
+        } else {
+        }
+
         const { modelo, estilo, ano, cilindrada, cilindros } =  req.body;
         
         if (!modelo || !estilo || !ano || !cilindrada || !cilindros){
