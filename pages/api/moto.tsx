@@ -7,7 +7,6 @@ import connect from '../../utils/database';
 interface ErrorResponseType {
     error: string;
 }
-
 interface SuccessResponseType{
     modelo: string;
     estilo: string;
@@ -18,7 +17,7 @@ interface SuccessResponseType{
 
 export default async (
     req: NextApiRequest,
-    res: NextApiResponse<ErrorResponseType>
+    res: NextApiResponse<ErrorResponseType | SuccessResponseType>
 ): Promise<void> => {
     if (req.method === 'POST'){
         const session = await getSession({ req })
