@@ -1,11 +1,6 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 
-const links = [
-  { href: 'https://github.com/vercel/next.js', label: 'GitHub' },
-  { href: 'https://nextjs.org/docs', label: 'Docs' },
-]
-
 const Nav: NextPage = () => {
   return (
     <nav>
@@ -18,13 +13,18 @@ const Nav: NextPage = () => {
           </Link>
         </li>
         <ul className="flex items-center justify-between space-x-4">
-          {links.map(({ href, label }) => (
-            <li key={`${href}${label}`}>
-              <a href={href} className="no-underline btn-blue">
-                {label}
-              </a>
-            </li>
-          ))}
+          <li>
+            <Link href="/search">
+              <a className="no-underline btn-blue">
+                Motos
+                </a>
+            </Link>
+            <Link href="/profile">
+              <a className="no-underline btn-blue">
+                Profile
+                </a>
+            </Link>
+          </li>
         </ul>
       </ul>
     </nav>
