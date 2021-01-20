@@ -1,6 +1,6 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 
-import connect from '../../utils/database';
+import connect from '../../../utils/database';
 
 interface ErrorResponseType {
     error: string;
@@ -11,19 +11,18 @@ export default async (
     res: NextApiResponse<ErrorResponseType | object[]>
 ): Promise<void> => {
     if (req.method === 'GET') {
-        const {
-            estilo,
-        }: {
-            estilo: string;
-        } = req.body;
+        const modelo = req.query.modelo as string;
 
-        if (!estilo) {
-            res.status(400).json({ error: "Missing estilo parameter on request body" });
+        if (! modelo) {
+            res.status(400).json({ error: "Missing modelo parameter on request body" });
             return;
         }
         const { db } = await connect();
 
-        const response = await db.collection('motos').find({ estilo: estilo }).toArray();
+        const response = await db
+            .collection("motos")
+            .find({ modelo: { $in: [new RegExp(`${modelo}`, 'i')] } })
+            .toArray();
 
         if (response.length === 0) {
             res.status(400).json({ error: 'Modelo not found' });
