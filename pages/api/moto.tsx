@@ -17,7 +17,7 @@ interface SuccessResponseType{
 
 export default async (
     req: NextApiRequest,
-    res: NextApiResponse<ErrorResponseType | SuccessResponseType>
+    res: NextApiResponse<ErrorResponseType | SuccessResponseType | SuccessResponseType[]>
 ): Promise<void> => {
     if (req.method === 'POST'){
         const session = await getSession({ req })
@@ -44,10 +44,19 @@ export default async (
         });
 
         res.status(200).json(response.ops[0]);
+    } else if (req.method === "GET") {
+
+        const { db } = await connect();
+
+        const response = await db.collection('motos').find({}).project({modelo:1, _id: 0}).toArray();
+
+        if (!response) {
+            res.status(400).json({ error: 'Motos not found' });
+            return;
+        }
+
+        res.status(200).json(response);
     } else {
         res.status(400).json({error: 'Wrong request method'});
     }
-    
-
-    
 };

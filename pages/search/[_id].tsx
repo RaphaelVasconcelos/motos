@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import Nav from '../../components/nav';
 
 interface Moto {
     _id: string;
@@ -15,6 +16,7 @@ export default function motoProfilePage({
     _id }: Moto): JSX.Element {
     return (
         <>
+            <Nav/>
             <h1 className="text-3xl">Modelo {modelo}</h1>
             <h1 className="text-2xl">Estilo {estilo}</h1>
             <h1 className="text-2xl">Id {_id}</h1>
